@@ -1,81 +1,95 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page class="flex bg-image flex-center">
-        <q-card
-          v-bind:style="$q.screen.lt.sm ? { width: '80%' } : { width: '30%' }"
-        >
-          <q-card-section>
-            <div class="text-center q-pt-lg">
-              <div class="col text-h4 ellipsis">Tactical RMM</div>
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <q-form ref="form" @submit.prevent="checkCreds" class="q-gutter-md">
-              <q-input
-                filled
-                v-model="credentials.username"
-                label="Username"
-                lazy-rules
-                :rules="[
-                  (val) => (val && val.length > 0) || 'This field is required',
-                ]"
-              />
-              <q-input
-                v-model="credentials.password"
-                filled
-                :type="showPassword ? 'password' : 'text'"
-                label="Password"
-                lazy-rules
-                :rules="[
-                  (val) => (val && val.length > 0) || 'This field is required',
-                ]"
-              >
-                <template v-slot:append>
-                  <q-icon
-                    :name="showPassword ? 'visibility_off' : 'visibility'"
-                    class="cursor-pointer"
-                    @click="showPassword = !showPassword"
-                  />
-                </template>
-              </q-input>
-              <div>
-                <q-btn
-                  label="Login"
-                  type="submit"
-                  color="primary"
-                  class="full-width"
+      <q-page class="window-height">
+        <div class="row window-height items-center">
+          <div class="col-12 flex flex-center">
+            <div style="max-width: 450px; width: 100%" class="q-pa-md">
+              <div class="text-center q-mb-xl">
+                <q-img
+                  src="../assets/logo-dark.png"
+                  class="q-mb-md"
+                  style="max-width: 200px; max-height: 200px"
                 />
               </div>
-            </q-form>
-          </q-card-section>
 
-          <q-card-section v-if="ssoProviders?.length > 0">
-            <div class="text-h6 text-center q-mb-md">Log in with SSO</div>
-            <q-separator />
-
-            <q-list dense bordered class="q-pa-sm">
-              <q-item
-                v-for="provider in ssoProviders"
-                :key="provider.id"
-                @click="openSSOProviderRedirect(provider.id)"
-                clickable
-                class="q-pa-xs hover-bg"
+              <q-form
+                ref="form"
+                @submit.prevent="checkCreds"
+                class="q-gutter-md"
               >
-                <q-item-section avatar>
-                  <q-icon
-                    :name="provider.icon ?? 'mdi-key'"
-                    size="sm"
-                    class="text-primary"
+                <q-input
+                  filled
+                  v-model="credentials.username"
+                  label="Username"
+                  lazy-rules
+                  :rules="[
+                    (val: string) =>
+                      (val && val.length > 0) || 'This field is required',
+                  ]"
+                />
+                <q-input
+                  v-model="credentials.password"
+                  filled
+                  :type="showPassword ? 'password' : 'text'"
+                  label="Password"
+                  lazy-rules
+                  :rules="[
+                    (val: string) =>
+                      (val && val.length > 0) || 'This field is required',
+                  ]"
+                >
+                  <template v-slot:append>
+                    <q-icon
+                      :name="showPassword ? 'visibility_off' : 'visibility'"
+                      class="cursor-pointer"
+                      @click="showPassword = !showPassword"
+                    />
+                  </template>
+                </q-input>
+                <div>
+                  <q-btn
+                    label="Login"
+                    type="submit"
+                    color="primary"
+                    class="full-width"
                   />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>{{ provider.name }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card>
+                </div>
+              </q-form>
+
+              <div v-if="ssoProviders?.length > 0" class="q-mt-xl">
+                <q-separator inset class="q-mb-md">
+                  <span class="text-overline">OR</span>
+                </q-separator>
+
+                <div class="text-h6 text-center q-mb-md q-mt-md">
+                  Log in with SSO
+                </div>
+
+                <q-list dense bordered class="q-pa-sm">
+                  <q-item
+                    v-for="provider in ssoProviders"
+                    :key="provider.id"
+                    @click="openSSOProviderRedirect(provider.id)"
+                    clickable
+                    class="q-pa-xs hover-bg"
+                  >
+                    <q-item-section avatar>
+                      <q-icon
+                        :name="provider.icon ?? 'mdi-key'"
+                        size="sm"
+                        class="text-primary"
+                      />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>{{ provider.name }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- 2 factor modal -->
         <q-dialog persistent v-model="prompt">
@@ -92,7 +106,7 @@
                   autocomplete="one-time-code"
                   v-model="twofactor"
                   :rules="[
-                    (val) =>
+                    (val: string) =>
                       (val && val.length > 0) || 'This field is required',
                   ]"
                 />
@@ -183,14 +197,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style>
-.bg-image {
-  background-image: linear-gradient(
-    90deg,
-    rgba(20, 20, 29, 1) 0%,
-    rgba(38, 42, 56, 1) 49%,
-    rgba(15, 18, 20, 1) 100%
-  );
-}
-</style>

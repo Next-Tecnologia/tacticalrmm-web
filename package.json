@@ -2,7 +2,7 @@
   "name": "web",
   "version": "0.101.55",
   "private": true,
-  "productName": "Tactical RMM",
+  "productName": "Next RMM",
   "scripts": {
     "serve": "quasar dev",
     "build": "quasar build",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@quasar/extras": "1.16.17",
+    "@vue/shared": "^3.5.18",
     "@vueuse/core": "11.2.0",
     "@vueuse/integrations": "11.2.0",
     "@vueuse/shared": "11.2.0",
