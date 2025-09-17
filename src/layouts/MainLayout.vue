@@ -60,9 +60,13 @@
           <q-tooltip>Back to Dashboard</q-tooltip>
         </q-btn>
         <q-toolbar-title>
-          Next RMM<span class="text-overline q-ml-sm"
-            >v{{ currentTRMMVersion }}</span
-          >
+          <img
+            src="~assets/logo-dark.png"
+            alt="Logo"
+            class="q-mr-sm"
+            height="20"
+          />
+          <span class="text-overline q-ml-sm">v{{ currentTRMMVersion }}</span>
           <!-- update check -->
           <q-chip
             v-if="updateAvailable"
